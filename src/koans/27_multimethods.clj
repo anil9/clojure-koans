@@ -18,27 +18,27 @@
 
 (defmethod multimethod-with-args :path-two [_ opts]
  (let [numbers (:second-opt opts)]
-  (->> numbers
-       (map inc)
-       (reduce +))))
+  (->> numbers                                              ;[0 1 2]
+       (map inc)                                            ;[1 2 3]
+       (reduce +))))                                        ;(+ 1 2 3)
 
 (defmethod multimethod-with-args :path-three [_])
 
 (meditations
  "A multimethod takes one or more arguments to dispatch on"
- (= __
+ (= "Hello, World!"
     (multimethod-without-args :first))
 
  "Though it can be ignored and represented by _ in defmethods"
- (= __
+ (= "Hello there"
     (multimethod-without-args :second))
 
  "Alternatively, we can use the arguments in defmethods"
- (= __
+ (= 1
     (multimethod-with-args :path-one {:first-opt 1
                                       :second-opt 2}))
  
  "This allows us to do something different in each method implementation"
- (= __
+ (= 6
     (multimethod-with-args :path-two {:first-opt 1
                                       :second-opt [0 1 2]})))
